@@ -176,7 +176,10 @@ class PicoBlog
         foreach ($entries as $id => $entry) {
             $text = \Slimdown::render($entry['entry']);
             $date = $entry['date'];
-            $text = "<a href='?id={$id}' title='{$date}' class='id'>[{$id}]</a> " . $text;
+            $dateLocal = new \DateTime($entry['date']); // Create a new var for more human readable date and time
+            $dateLocal->setTimezone(new \DateTimeZone('CET')); // Set your timezone
+            $text = "<a href='?id={$date}' title='{$date}' class='date'>".$dateLocal->format('Y-m-d H:i')."</a> " . $text; // Use date instead of id and             
+            //$text = "<a href='?id={$id}' title='{$date}' class='id'>[{$id}]</a> " . $text;
             $html .= str_replace('{entry}', $text, $entryWrap);
         }
         return $html;
